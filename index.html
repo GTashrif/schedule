@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Class Schedule</title>
+    <style>
+        :root {
+            --primary-color: #6366f1;
+            --primary-hover: #4f46e5;
+            --background: #f8fafc;
+            --card-bg: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --border-color: #e2e8f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--background);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .navbar {
+            background-color: var(--card-bg);
+            padding: 1rem 2rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .nav-button {
+            color: var(--text-secondary);
+            background: transparent;
+            border: 1px solid var(--border-color);
+            padding: 0.5rem 1.25rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .nav-button:hover {
+            background-color: var(--background);
+        }
+
+        .nav-button.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .content {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .view {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .view.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* Table View Styles */
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background-color: var(--background);
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        td {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* Workflow View Styles */
+        .day-section {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease;
+        }
+
+        .day-section:hover {
+            transform: translateY(-2px);
+        }
+
+        .day-heading {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .class-item {
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            background-color: var(--background);
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .class-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .class-item strong {
+            display: block;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .class-item span {
+            display: block;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .nav-button {
+                width: 100%;
+                text-align: center;
+                padding: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <button class="nav-button active" onclick="switchView('table')">Table</button>
+        <button class="nav-button" onclick="switchView('workflow')">Work Flow</button>
+    </nav>
+
+    <div class="content">
+        <div id="table-view" class="view active">
+            <h2>Weekly Schedule</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Day</th>
+                        <th>Course</th>
+                        <th>Type</th>
+                        <th>Time</th>
+                        <th>Location</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Monday</td>
+                        <td>COMP1300</td>
+                        <td>Lecture</td>
+                        <td>09:00am - 11:00am</td>
+                        <td>Online Teaching, ONLIN, NORTH RYDE</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="3">Tuesday</td>
+                        <td>ENGG1000</td>
+                        <td>Practical</td>
+                        <td>09:00am - 12:00pm</td>
+                        <td>44 Waterloo Rd G65 Electrical PC Lab, 44WTR, NORTH RYDE</td>
+                    </tr>
+                    <tr>
+                        <td>COMP2100</td>
+                        <td>Lecture</td>
+                        <td>03:00pm - 05:00pm</td>
+                        <td>23WW PG Price Theatre, 23WW, NORTH RYDE</td>
+                    </tr>
+                    <tr>
+                        <td>COMP2100</td>
+                        <td>Practical</td>
+                        <td>05:00pm - 07:00pm</td>
+                        <td>6 Eastern Rd 215 PC Lab, 06EAR, NORTH RYDE</td>
+                    </tr>
+                    <tr>
+                        <td>Wednesday</td>
+                        <td>COMP1050</td>
+                        <td>Lecture</td>
+                        <td>01:00pm - 03:00pm</td>
+                        <td>14 Sir Christopher Ondaatje Ave Mason Th, 14SCO, NORTH RYDE</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="3">Friday</td>
+                        <td>ENGG1000</td>
+                        <td>Lecture</td>
+                        <td>09:00am - 11:00am</td>
+                        <td>27 Wallys Wlk Lotus Theatre, 27WW, NORTH RYDE</td>
+                    </tr>
+                    <tr>
+                        <td>COMP1300</td>
+                        <td>SGTA</td>
+                        <td>11:00am - 12:00pm</td>
+                        <td>1 Central Courtyard 112 Rm, 01CC, NORTH RYDE</td>
+                    </tr>
+                    <tr>
+                        <td>COMP1050</td>
+                        <td>Practical</td>
+                        <td>05:00pm - 07:00pm</td>
+                        <td>4 Research Park Drive G12 Faculty PC Lab, 04RPD, NORTH RYDE</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="workflow-view" class="view">
+            <h2>Daily Schedule</h2>
+            
+            <div class="day-section">
+                <h3 class="day-heading">Monday</h3>
+                <div class="class-item">
+                    <strong>COMP1300 Lecture</strong>
+                    <span>Time: 09:00am - 11:00am</span>
+                    <span>Place: Online Teaching, ONLIN, NORTH RYDE</span>
+                </div>
+            </div>
+
+            <div class="day-section">
+                <h3 class="day-heading">Tuesday</h3>
+                <div class="class-item">
+                    <strong>ENGG1000 Practical</strong>
+                    <span>Time: 09:00am - 12:00pm</span>
+                    <span>Place: 44 Waterloo Rd G65 Electrical PC Lab, 44WTR, NORTH RYDE</span>
+                </div>
+                <div class="class-item">
+                    <strong>COMP2100 Lecture</strong>
+                    <span>Time: 03:00pm - 05:00pm</span>
+                    <span>Place: 23WW PG Price Theatre, 23WW, NORTH RYDE</span>
+                </div>
+                <div class="class-item">
+                    <strong>COMP2100 Practical</strong>
+                    <span>Time: 05:00pm - 07:00pm</span>
+                    <span>Place: 6 Eastern Rd 215 PC Lab, 06EAR, NORTH RYDE</span>
+                </div>
+            </div>
+
+            <div class="day-section">
+                <h3 class="day-heading">Wednesday</h3>
+                <div class="class-item">
+                    <strong>COMP1050 Lecture</strong>
+                    <span>Time: 01:00pm - 03:00pm</span>
+                    <span>Place: 14 Sir Christopher Ondaatje Ave Mason Th, 14SCO, NORTH RYDE</span>
+                </div>
+            </div>
+
+            <div class="day-section">
+                <h3 class="day-heading">Friday</h3>
+                <div class="class-item">
+                    <strong>ENGG1000 Lecture</strong>
+                    <span>Time: 09:00am - 11:00am</span>
+                    <span>Place: 27 Wallys Wlk Lotus Theatre, 27WW, NORTH RYDE</span>
+                </div>
+                <div class="class-item">
+                    <strong>COMP1300 SGTA</strong>
+                    <span>Time: 11:00am - 12:00pm</span>
+                    <span>Place: 1 Central Courtyard 112 Rm, 01CC, NORTH RYDE</span>
+                </div>
+                <div class="class-item">
+                    <strong>COMP1050 Practical</strong>
+                    <span>Time: 05:00pm - 07:00pm</span>
+                    <span>Place: 4 Research Park Drive G12 Faculty PC Lab, 04RPD, NORTH RYDE</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchView(viewName) {
+            // Hide all views
+            document.querySelectorAll('.view').forEach(view => {
+                view.classList.remove('active');
+            });
+            
+            // Show selected view
+            document.getElementById(viewName + '-view').classList.add('active');
+            
+            // Update button states
+            document.querySelectorAll('.nav-button').forEach(button => {
+                button.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>
