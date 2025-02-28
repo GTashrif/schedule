@@ -13,6 +13,8 @@
             --text-primary: #1e293b;
             --text-secondary: #64748b;
             --border-color: #e2e8f0;
+            --highlight-color: #fef3c7;
+            --highlight-border: #f59e0b;
         }
 
         * {
@@ -138,6 +140,12 @@
             transform: translateY(-2px);
         }
 
+        .day-section.current-day {
+            background-color: var(--highlight-color);
+            border-left: 4px solid var(--highlight-border);
+            box-shadow: 0 4px 12px -1px rgba(245, 158, 11, 0.2);
+        }
+
         .day-heading {
             font-size: 1.2rem;
             font-weight: 600;
@@ -145,6 +153,11 @@
             margin-bottom: 1.25rem;
             padding-bottom: 0.75rem;
             border-bottom: 2px solid var(--border-color);
+        }
+
+        .current-day .day-heading {
+            color: #b45309;
+            border-bottom-color: var(--highlight-border);
         }
 
         .class-item {
@@ -212,6 +225,22 @@
             color: var(--primary-color);
             font-size: 0.9rem;
             font-weight: 500;
+        }
+
+        /* Current day indicator for today's date */
+        .current-day-indicator {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--highlight-border);
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.5rem;
+            border-radius: 999px;
+            margin-left: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
 
         /* Responsive Design */
@@ -417,8 +446,8 @@
         <div id="workflow-view" class="view">
             <h2>Daily Schedule</h2>
             
-            <div class="day-section">
-                <h3 class="day-heading">Monday</h3>
+            <div id="monday" class="day-section">
+                <h3 class="day-heading">Monday <span id="monday-indicator" class="current-day-indicator" style="display:none;">Today</span></h3>
                 <div class="class-item">
                     <strong>COMP1300 Lecture</strong>
                     <span>Time: 09:00am - 11:00am</span>
@@ -426,8 +455,8 @@
                 </div>
             </div>
 
-            <div class="day-section">
-                <h3 class="day-heading">Tuesday</h3>
+            <div id="tuesday" class="day-section">
+                <h3 class="day-heading">Tuesday <span id="tuesday-indicator" class="current-day-indicator" style="display:none;">Today</span></h3>
                 <div class="class-item">
                     <strong>ENGG1000 Practical</strong>
                     <span>Time: 09:00am - 12:00pm</span>
@@ -448,8 +477,8 @@
                 </div>
             </div>
 
-            <div class="day-section">
-                <h3 class="day-heading">Wednesday</h3>
+            <div id="wednesday" class="day-section">
+                <h3 class="day-heading">Wednesday <span id="wednesday-indicator" class="current-day-indicator" style="display:none;">Today</span></h3>
                 <div class="class-item">
                     <strong>COMP1050 Lecture</strong>
                     <span>Time: 01:00pm - 03:00pm</span>
@@ -458,15 +487,14 @@
                 </div>
             </div>
 
-            <div class="day-section">
-                <h3 class="day-heading">Thursday</h3>
+            <div id="thursday" class="day-section">
+                <h3 class="day-heading">Thursday <span id="thursday-indicator" class="current-day-indicator" style="display:none;">Today</span></h3>
                 <div class="class-item">
                 </div>
             </div>
 
-
-            <div class="day-section">
-                <h3 class="day-heading">Friday</h3>
+            <div id="friday" class="day-section">
+                <h3 class="day-heading">Friday <span id="friday-indicator" class="current-day-indicator" style="display:none;">Today</span></h3>
                 <div class="class-item">
                     <strong>ENGG1000 Lecture</strong>
                     <span>Time: 09:00am - 11:00am</span>
@@ -487,14 +515,14 @@
                 </div>
             </div>
 
-            <div class="day-section">
-                <h3 class="day-heading">Saturday</h3>
+            <div id="saturday" class="day-section">
+                <h3 class="day-heading">Saturday <span id="saturday-indicator" class="current-day-indicator" style="display:none;">Today</span></h3>
                 <div class="class-item">
                 </div>
             </div>
 
-            <div class="day-section">
-                <h3 class="day-heading">Sunday</h3>
+            <div id="sunday" class="day-section">
+                <h3 class="day-heading">Sunday <span id="sunday-indicator" class="current-day-indicator" style="display:none;">Today</span></h3>
                 <div class="class-item">
                 </div>
             </div>
@@ -546,6 +574,40 @@
             });
             event.target.classList.add('active');
         }
+
+        // Function to highlight current day
+        function highlightCurrentDay() {
+            const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+            const date = new Date();
+            const today = days[date.getDay()]; // getDay() returns 0 for Sunday, 1 for Monday, etc.
+            
+            // Remove current-day class from all day sections
+            document.querySelectorAll('.day-section').forEach(section => {
+                section.classList.remove('current-day');
+            });
+            
+            // Hide all "Today" indicators
+            document.querySelectorAll('.current-day-indicator').forEach(indicator => {
+                indicator.style.display = 'none';
+            });
+            
+            // Add current-day class to today's section
+            const todaySection = document.getElementById(today);
+            if (todaySection) {
+                todaySection.classList.add('current-day');
+                // Show today's indicator
+                const indicator = document.getElementById(today + '-indicator');
+                if (indicator) {
+                    indicator.style.display = 'inline-flex';
+                }
+            }
+        }
+
+        // Call highlight function when page loads
+        document.addEventListener('DOMContentLoaded', highlightCurrentDay);
+        
+        // Also call it when switching to the workflow view
+        document.querySelectorAll('.nav-button')[1].addEventListener('click', highlightCurrentDay);
     </script>
 </body>
 </html>
